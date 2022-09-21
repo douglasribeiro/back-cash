@@ -4,11 +4,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
+import com.cash.enums.Perfil;
+import com.cash.model.Usuario;
+import com.cash.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,6 +35,10 @@ public class BackCashApplication {
 	private FornecedorRepository fornecedorRepository;
 	@Autowired
 	private ContaRepository contaRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackCashApplication.class, args);
@@ -41,6 +49,21 @@ public class BackCashApplication {
 
 		@Override
 		public void run(String... args) throws Exception {
+
+			Usuario user1 = new Usuario(1, "gerente", "gerente@mail.com", encoder.encode("123"));
+			Usuario user2 = new Usuario(2, "admin", "admin@mail.com", encoder.encode("123"));
+			Usuario user3 = new Usuario(3, "user", "user@mail.com", encoder.encode("123"));
+			Usuario user4 = new Usuario(4, "user", "avulso@mail.com", encoder.encode("123"));
+
+			user1.addPerfil(Perfil.GERENTE);
+			user2.addPerfil(Perfil.ADMIN);
+			user3.addPerfil(Perfil.USER);
+			user4.addPerfil(Perfil.AVULSO);
+
+			usuarioRepository.save(user1);
+			usuarioRepository.save(user2);
+			usuarioRepository.save(user3);
+			usuarioRepository.save(user4);
 			
 			Fornecedor f01 = new Fornecedor(1L, "Sabesp", null, null, "Fornecedor de Agua");
 			Fornecedor f02 = new Fornecedor(2L, "EBP", null, null, "Fornecedor de Energia Eletrica");

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Fornecedor implements Serializable {
@@ -28,17 +30,24 @@ public class Fornecedor implements Serializable {
 	private String telefone;
 	
 	private String observacao;
+	
+	@ManyToOne
+	@JoinColumn(name="usuario_id")
+	private Usuario usuario;
 
 	public Fornecedor() {}
 
-	public Fornecedor(Long id, String nome, String email, String telefone, String observacao) {
+	public Fornecedor(Long id, String nome, String email, String telefone, String observacao, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
 		this.observacao = observacao;
+		this.usuario = usuario;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -78,6 +87,14 @@ public class Fornecedor implements Serializable {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override

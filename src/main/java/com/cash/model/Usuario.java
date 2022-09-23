@@ -27,7 +27,7 @@ public class Usuario implements Serializable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Perfis")
-    protected Set<Integer> perfis = new HashSet<>();
+    private Set<Integer> perfis = new HashSet<>();
 
     public Usuario() {
 

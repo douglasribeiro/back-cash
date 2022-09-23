@@ -59,21 +59,29 @@ public class Conta implements Serializable {
 	
 	private Double valorPago;
 	
-	public Conta() {}
+	@ManyToOne
+	@JoinColumn(name="usuario_id")
+	private Usuario usuario;
 
-	public Conta(Long id, String descr, Fornecedor fornecedor, Situacao situacao, LocalDate dtVenc, 
-			LocalDate dtPagto, Double valorInicial, Double valorJuro, Double valorDesconto, Double valorPago) {
+	
+	public Conta() {}
+	
+	public Conta(Long id, String descr, Fornecedor fornecedor, Situacao situacao, LocalDate dtVenc, Date includeDate,
+			LocalDate dtPagto, Double valorInicial, Double valorJuro, Double valorDesconto, Double valorPago,
+			Usuario usuario) {
 		super();
 		this.id = id;
 		this.descr = descr;
 		this.fornecedor = fornecedor;
 		this.situacao = situacao;
 		this.dtVenc = dtVenc;
+		this.includeDate = includeDate;
 		this.dtPagto = dtPagto;
 		this.valorInicial = valorInicial;
 		this.valorJuro = valorJuro;
 		this.valorDesconto = valorDesconto;
 		this.valorPago = valorPago;
+		this.usuario = usuario;
 	}
 
 
@@ -175,7 +183,13 @@ public class Conta implements Serializable {
 	public void setValorPago(Double valorPago) {
 		this.valorPago = valorPago;
 	}
-    
-    
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 	
 }

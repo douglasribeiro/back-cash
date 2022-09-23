@@ -4,20 +4,37 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 
+import com.cash.dto.FornecedorDTO;
 import com.cash.exception.ObjectNotFoundException;
 import com.cash.model.Fornecedor;
+import com.cash.model.Usuario;
 import com.cash.repository.FornecedorRepository;
+import com.cash.repository.UsuarioRepository;
 import com.cash.service.FornecedorService;
 
 public class FornecedorServiceImpl implements FornecedorService {
 
 	@Autowired
 	FornecedorRepository fornecedorRepository;
+	@Autowired
+	UsuarioRepository usuarioRepository;
 	
 	@Override
 	public List<Fornecedor> findAll() {
-		return fornecedorRepository.findAll();
+		Usuario usuario;
+		Authentication authentication = UserServiceImpl.isAuthenticated();
+		if(authentication == null || !authentication.isAuthenticated()) {
+			return null;
+		}
+		System.out.println(authentication.getAuthorities());
+		if(authentication.getPrincipal().equals("anonymousUser") 
+				|| authentication.getAuthorities().stream().anyMatch(ga -> ga.getAuthority().equals("ROLE_ADMIN")))
+			return fornecedorRepository.findAll();
+		else
+			usuario = usuarioRepository.findByEmail(authentication.getPrincipal().toString()).get();
+		return fornecedorRepository.findByUsuarioId(usuario.getId());
 	}
 
 	@Override
@@ -26,7 +43,7 @@ public class FornecedorServiceImpl implements FornecedorService {
 	}
 
 	@Override
-	public void update(Long id, Fornecedor fornecedor) {
+	public void update(Long id, FornecedorDTO fornecedor) {
 		Optional<Fornecedor> obj = 
 				Optional.of(fornecedorRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Fornecedor não encontrado")));
 		obj.get().setEmail(fornecedor.getEmail());

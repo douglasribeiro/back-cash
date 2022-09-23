@@ -7,6 +7,8 @@ import java.util.Arrays;
 import com.cash.enums.Perfil;
 import com.cash.model.Usuario;
 import com.cash.repository.UsuarioRepository;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -65,8 +67,8 @@ public class BackCashApplication {
 			usuarioRepository.save(user3);
 			usuarioRepository.save(user4);
 			
-			Fornecedor f01 = new Fornecedor(1L, "Sabesp", null, null, "Fornecedor de Agua");
-			Fornecedor f02 = new Fornecedor(2L, "EBP", null, null, "Fornecedor de Energia Eletrica");
+			Fornecedor f01 = new Fornecedor(1L, "Sabesp", null, null, "Fornecedor de Agua",user1);
+			Fornecedor f02 = new Fornecedor(2L, "EBP", null, null, "Fornecedor de Energia Eletrica",user2);
 			
 			fornecedorRepository.saveAll(Arrays.asList(f01, f02));
 			
@@ -74,8 +76,8 @@ public class BackCashApplication {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			LocalDate date = LocalDate.parse(data,formatter);
 			
-			Conta agua = new Conta(1L, "Fornecimento de agua", f01, Situacao.ABERTA, date, null, 80.00, null, null, null);
-			Conta energia = new Conta(2L, "Energia Eletrica    ", f02, Situacao.ABERTA, date, null, 170.50, 0.0, 0.0, null);
+			Conta agua = new Conta(1L, "Fornecimento de agua", f01, Situacao.ABERTA, date, null, date, 80.00, null, null, null, user1);
+			Conta energia = new Conta(2L, "Energia Eletrica    ", f02, Situacao.ABERTA, date, null, date, 170.50, 0.0, 0.0, null, user2);
 			
 			contaRepository.saveAll(Arrays.asList(agua,energia));
 			
@@ -90,6 +92,11 @@ public class BackCashApplication {
 	@Bean
 	public ContaService contaService() {
 		return new ContaServiceImpl();
+	}
+	
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 	
 }

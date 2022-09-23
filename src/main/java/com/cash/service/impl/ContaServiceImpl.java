@@ -43,6 +43,7 @@ public class ContaServiceImpl implements ContaService {
 		obj.get().setValorInicial(conta.getValorInicial());
 		obj.get().setValorJuro(conta.getValorJuro());
 		obj.get().setValorPago(conta.getValorPago());
+		obj.get().setUsuario(conta.getUsuario());
 		contaRepository.save(obj.get());
 	}
 
@@ -73,10 +74,11 @@ public class ContaServiceImpl implements ContaService {
 					conta.getSituacao(), 
 					dtvenc, 
 					null, 
-					conta.getValorInicial(), 
+					dtvenc, conta.getValorInicial(), 
 					conta.getValorJuro(), 
 					conta.getValorDesconto(), 
-					conta.getValorPago());
+					conta.getValorPago(),
+					conta.getUsuario());
 			contaRepository.save(obj);
 			retorno.add(obj);
 		}

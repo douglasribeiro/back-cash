@@ -31,6 +31,16 @@ public enum Perfil {
         }
         throw new IllegalArgumentException("Perfil invalido.");
     }
+    
+    public static Perfil toEnum(String nome) {
+        if(nome == null)
+            return null;
+        for (Perfil x: Perfil.values()) {
+            if(nome.equals(x.getDescricao()))
+                return x;
+        }
+        throw new IllegalArgumentException("Perfil invalido.");
+    }
 
 
 }

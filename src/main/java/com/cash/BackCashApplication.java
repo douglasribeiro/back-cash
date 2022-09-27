@@ -1,12 +1,8 @@
 package com.cash;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-
-import com.cash.enums.Perfil;
-import com.cash.model.Usuario;
-import com.cash.repository.UsuarioRepository;
+import java.util.Date;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +12,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.cash.enums.Perfil;
 import com.cash.enums.Situacao;
 import com.cash.model.Conta;
 import com.cash.model.Fornecedor;
+import com.cash.model.Usuario;
 import com.cash.repository.ContaRepository;
 import com.cash.repository.FornecedorRepository;
+import com.cash.repository.UsuarioRepository;
 import com.cash.service.ContaService;
 import com.cash.service.FornecedorService;
 import com.cash.service.impl.ContaServiceImpl;
@@ -73,8 +69,8 @@ public class BackCashApplication {
 			fornecedorRepository.saveAll(Arrays.asList(f01, f02));
 			
 			String data = "25/09/2022";
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate date = LocalDate.parse(data,formatter);
+			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+			Date date = formato.parse(data);
 			
 			Conta agua = new Conta(1L, "Fornecimento de agua", f01, Situacao.ABERTA, date, null, date, 80.00, null, null, null, user1);
 			Conta energia = new Conta(2L, "Energia Eletrica    ", f02, Situacao.ABERTA, date, null, date, 170.50, 0.0, 0.0, null, user2);

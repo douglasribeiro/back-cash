@@ -1,5 +1,7 @@
 package com.cash.service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,10 @@ public interface ContaService {
 	public List<Conta> findAll();
 
 	public Optional<Conta> findById(Long id);
+	
+	public List<Conta> findByVenc(Date venc);
+	
+	public List<Conta> findByVencBetween(Date dtIni, Date dtFim);
 
 	public void update(Long id, Conta conta);
 

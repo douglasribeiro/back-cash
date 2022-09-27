@@ -15,6 +15,8 @@ public class FornecedorDTO implements Serializable {
 	
 	private String observacao;
 	
+	private UsuarioDTO usuario;
+	
 	public FornecedorDTO() {}
 
 	public FornecedorDTO(Long id, String nome, String email, String telefone, String observacao) {
@@ -65,5 +67,15 @@ public class FornecedorDTO implements Serializable {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
+
+	public UsuarioDTO getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
+	}
+	
+	
 
 }

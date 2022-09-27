@@ -18,19 +18,16 @@ public class UsuarioDTO implements Serializable {
 
     private String senha;
 
-    private Set<Integer> perfis = new HashSet<>();
-
 	public UsuarioDTO() {
 		super();
 	}
 
-	public UsuarioDTO(Integer id, String nome, String email, String senha, Set<Integer> perfis) {
+	public UsuarioDTO(Integer id, String nome, String email, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
-		this.perfis = perfis;
 	}
 
 	public Integer getId() {
@@ -64,17 +61,5 @@ public class UsuarioDTO implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	public Set<Perfil> getPerfis() {
-        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
-    }
-
-    public void setPerfil(Perfil perfil) {
-        this.perfis.add(perfil.getCodigo());
-    }
-    
-    public void setPerfil(Set<Integer> perfil) {
-        this.perfis.addAll(perfil);
-    }
     
 }

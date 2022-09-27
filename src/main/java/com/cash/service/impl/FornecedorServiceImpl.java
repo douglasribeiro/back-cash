@@ -28,7 +28,7 @@ public class FornecedorServiceImpl implements FornecedorService {
 		if(authentication == null || !authentication.isAuthenticated()) {
 			return null;
 		}
-		System.out.println(authentication.getAuthorities());
+		//System.out.println(authentication.getAuthorities());
 		if(authentication.getPrincipal().equals("anonymousUser") 
 				|| authentication.getAuthorities().stream().anyMatch(ga -> ga.getAuthority().equals("ROLE_ADMIN")))
 			return fornecedorRepository.findAll();
@@ -56,6 +56,7 @@ public class FornecedorServiceImpl implements FornecedorService {
 	@Override
 	public Fornecedor save(Fornecedor fornecedor) {
 		fornecedor.setId(null);
+		fornecedor.setUsuario(recuperaUser());
 		return fornecedorRepository.save(fornecedor);
 	}
 
@@ -64,6 +65,11 @@ public class FornecedorServiceImpl implements FornecedorService {
 		Optional<Fornecedor> obj = 
 				Optional.of(fornecedorRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Fornecedor não encontrado")));
 		fornecedorRepository.delete(obj.get());
+	}
+	
+	private Usuario recuperaUser() {
+		Authentication authentication = UserServiceImpl.isAuthenticated();
+		return usuarioRepository.findByEmail(authentication.getPrincipal().toString()).get();
 	}
 
 }

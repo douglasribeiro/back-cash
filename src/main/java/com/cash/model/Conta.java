@@ -1,7 +1,6 @@
 package com.cash.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -42,13 +41,13 @@ public class Conta implements Serializable {
 	private Situacao situacao;
 	
 	@JsonFormat(pattern="dd/MM/yyyy")
-	private LocalDate dtVenc;
+	private Date dtVenc;
 	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date includeDate;
 	
 	@JsonFormat(pattern="dd/MM/yyyy")
-	private LocalDate dtPagto;
+	private Date dtPagto;
 	
 	@Column(nullable = false)
 	private Double valorInicial;
@@ -66,8 +65,8 @@ public class Conta implements Serializable {
 	
 	public Conta() {}
 	
-	public Conta(Long id, String descr, Fornecedor fornecedor, Situacao situacao, LocalDate dtVenc, Date includeDate,
-			LocalDate dtPagto, Double valorInicial, Double valorJuro, Double valorDesconto, Double valorPago,
+	public Conta(Long id, String descr, Fornecedor fornecedor, Situacao situacao, Date dtVenc, Date includeDate,
+			Date dtPagto, Double valorInicial, Double valorJuro, Double valorDesconto, Double valorPago,
 			Usuario usuario) {
 		super();
 		this.id = id;
@@ -136,19 +135,19 @@ public class Conta implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public LocalDate getDtVenc() {
+	public Date getDtVenc() {
 		return dtVenc;
 	}
 
-	public void setDtVenc(LocalDate dtVenc) {
+	public void setDtVenc(Date dtVenc) {
 		this.dtVenc = dtVenc;
 	}
 
-	public LocalDate getDtPagto() {
+	public Date getDtPagto() {
 		return dtPagto;
 	}
 
-	public void setDtPagto(LocalDate dtPagto) {
+	public void setDtPagto(Date dtPagto) {
 		this.dtPagto = dtPagto;
 	}
 

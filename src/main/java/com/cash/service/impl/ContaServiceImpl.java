@@ -1,7 +1,7 @@
 package com.cash.service.impl;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,11 +62,11 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public List<Conta> replica(@Valid Conta conta, Integer replica) {
-		int mesAtual = conta.getDtVenc().getMonthValue();
+		int mesAtual = conta.getDtVenc().getMonth();
 		List<Conta> retorno = new ArrayList<>();
 		for(int i = 0; i < replica; i++) {
-			LocalDate dtvenc = conta.getDtVenc();
-			dtvenc = dtvenc.plusMonths(i);
+			Date dtvenc = conta.getDtVenc();
+			dtvenc.setMonth(mesAtual +i);
 			Conta obj = new Conta(
 					null, 
 					conta.getDescr(), 
@@ -99,6 +99,16 @@ public class ContaServiceImpl implements ContaService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<Conta> findByVenc(Date venc) {
+		return contaRepository.findByDtVencimento(venc);
+	}
+
+	@Override
+	public List<Conta> findByVencBetween(Date dtIni, Date dtFim) {
+		return contaRepository.findByDtVencimentoBetween(dtIni, dtFim);
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.cash.controller;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.cash.dto.ContaDTO;
 import com.cash.model.Conta;
 import com.cash.service.ContaService;
 
@@ -67,17 +67,19 @@ public class ContaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody @Valid Conta conta) {
+	public ResponseEntity<Void> insert(@RequestBody @Valid ContaDTO conta) {
 		Conta obj = contaService.save(conta);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+		//return null;
 	}
 	
 	@PostMapping(value = "/{ocorrencia}")
-	public ResponseEntity<List<Conta>> replica(@RequestBody @Valid Conta conta, @PathVariable("ocorrencia") Integer replica) {
-		List<Conta> obj = contaService.replica(conta, replica);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<Void> replica(@RequestBody @Valid ContaDTO conta, @PathVariable Integer ocorrencia) {
+		List<Conta> obj = contaService.replica(conta, ocorrencia);
+		//return ResponseEntity.ok().body(obj);
+		return null;
 	}
 	
 	@DeleteMapping(value="/{id}")
